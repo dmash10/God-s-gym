@@ -1,12 +1,10 @@
 'use server';
 
-import fs from 'fs/promises';
-import path from 'path';
+import { kv } from '@vercel/kv';
 import { revalidatePath } from 'next/cache';
 import { requireAuth } from './auth';
 
-
-const DATA_FILE_PATH = path.join(process.cwd(), 'src', 'data', 'gym-data.json');
+const DATA_KEY = 'gym-data';
 
 // Full data interface
 interface GymData {
@@ -93,69 +91,84 @@ interface GymData {
   marquee: string[];
 }
 
-// Helper to read data
+// Default data structure
+const DEFAULT_DATA: GymData = {
+  hero: { title: 'BUILD GODLIKE STRENGTH', backgroundImage: '' },
+  programs: [],
+  trainers: [],
+  plans: [],
+  transformations: [],
+  gallery: [],
+  about: {
+    headline: 'Who We Are',
+    subheadline: 'The Sanctuary of Iron',
+    description: 'God\'s Gym was founded on a simple, unbreakable principle: Strength is the ultimate virtue.',
+    bulletPoints: ['FOR THE DEDICATED|Athletes, bodybuilders, and anyone ready to suffer for success.', 'NOT FOR THE WEAK|If you\'re looking for air conditioning and smoothies, look elsewhere.'],
+    image: ''
+  },
+  siteSettings: {
+    contactPhone: '+91 98765 43210',
+    address: 'Near SBI Bank, Kargi Chowk, Dehradun',
+    instagramUrl: 'https://www.instagram.com/godsgym_/',
+    facebookUrl: '',
+    twitterUrl: '',
+    whatsappNumber: '919876543210',
+    hoursWeekday: '5:00 AM - 10:00 PM',
+    hoursSunday: '4:00 PM - 8:00 PM',
+    mapUrl: '',
+    announcement: ''
+  },
+  homepage: {
+    cta: {
+      title: 'STOP WAITING',
+      subtitle: 'START DOMINATING',
+      buttonText: 'Join the Elite',
+      buttonLink: '/membership',
+      backgroundImage: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop'
+    },
+    philosophy: {
+      title: 'PAIN IS WEAKNESS LEAVING THE BODY',
+      subtitle: 'The Sanctuary of Iron',
+      description: 'At God\'s Gym, we don\'t believe in shortcuts. We believe in the relentless pursuit of excellence through iron and sweat.',
+      bulletPoints: [],
+      image: ''
+    }
+  },
+  marquee: ["NO EXCUSES", "TRAIN HARD", "STAY CONSISTENT", "GOD'S GYM"]
+};
+
+// Helper to read data from Vercel KV
 export async function getGymData(): Promise<GymData> {
   try {
-    const data = await fs.readFile(DATA_FILE_PATH, 'utf-8');
-    const parsed = JSON.parse(data);
-
-    // Ensure all required fields exist with defaults
+    const data = await kv.get<GymData>(DATA_KEY);
+    if (!data) {
+      // Initialize with default data if not exists
+      await kv.set(DATA_KEY, DEFAULT_DATA);
+      return DEFAULT_DATA;
+    }
+    // Merge with defaults to ensure all fields exist
     return {
-      hero: parsed.hero || { title: 'BUILD GODLIKE STRENGTH', backgroundImage: '' },
-      programs: parsed.programs || [],
-      trainers: parsed.trainers || [],
-      plans: parsed.plans || [],
-      transformations: parsed.transformations || [],
-      gallery: parsed.gallery || [],
-      about: parsed.about || {
-        headline: 'Who We Are',
-        subheadline: 'The Sanctuary of Iron',
-        description: 'God\'s Gym was founded on a simple, unbreakable principle: Strength is the ultimate virtue.',
-        bulletPoints: ['FOR THE DEDICATED|Athletes, bodybuilders, and anyone ready to suffer for success.', 'NOT FOR THE WEAK|If you\'re looking for air conditioning and smoothies, look elsewhere.'],
-        image: ''
-      },
-      siteSettings: parsed.siteSettings || {
-        contactPhone: '+91 98765 43210',
-        address: 'Near SBI Bank, Kargi Chowk, Dehradun',
-        instagramUrl: 'https://www.instagram.com/godsgym_/',
-        facebookUrl: '',
-        twitterUrl: '',
-        whatsappNumber: '919876543210',
-        hoursWeekday: '5:00 AM - 10:00 PM',
-        hoursSunday: '4:00 PM - 8:00 PM',
-        mapUrl: '',
-        announcement: ''
-      },
-      homepage: parsed.homepage || {
-        cta: {
-          title: 'STOP WAITING',
-          subtitle: 'START DOMINATING',
-          buttonText: 'Join the Elite',
-          buttonLink: '/membership',
-          backgroundImage: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop'
-        },
-        philosophy: parsed.homepage?.philosophy || {
-          title: 'PAIN IS WEAKNESS LEAVING THE BODY',
-          subtitle: 'The Sanctuary of Iron',
-          description: 'At God\'s Gym, we don\'t believe in shortcuts. We believe in the relentless pursuit of excellence through iron and sweat.',
-          bulletPoints: [],
-          image: ''
-        }
-      },
-      marquee: parsed.marquee || ["NO EXCUSES", "TRAIN HARD", "STAY CONSISTENT", "GOD'S GYM"]
+      ...DEFAULT_DATA,
+      ...data,
+      about: { ...DEFAULT_DATA.about, ...data.about },
+      siteSettings: { ...DEFAULT_DATA.siteSettings, ...data.siteSettings },
+      homepage: {
+        cta: { ...DEFAULT_DATA.homepage.cta, ...data.homepage?.cta },
+        philosophy: { ...DEFAULT_DATA.homepage.philosophy, ...data.homepage?.philosophy }
+      }
     };
   } catch (error) {
-    console.error("Error reading gym data:", error);
-    throw new Error("Failed to load gym data");
+    console.error("Error reading gym data from KV:", error);
+    return DEFAULT_DATA;
   }
 }
 
-// Helper to save data
+// Helper to save data to Vercel KV
 async function saveGymData(data: GymData) {
   try {
-    await fs.writeFile(DATA_FILE_PATH, JSON.stringify(data, null, 2), 'utf-8');
+    await kv.set(DATA_KEY, data);
   } catch (error) {
-    console.error("Error writing gym data:", error);
+    console.error("Error writing gym data to KV:", error);
     throw new Error("Failed to save data");
   }
 }
