@@ -149,7 +149,7 @@ export default function CTAEditor({ initialData }: CTAEditorProps) {
 
                         <div className="relative w-full aspect-video rounded-lg overflow-hidden flex items-center justify-center">
                             <img
-                                src={cta.backgroundImage || 'https://via.placeholder.com/800x450?text=BG+Image'}
+                                src={cta.backgroundImage || ''}
                                 alt="CTA Background"
                                 className="absolute inset-0 w-full h-full object-cover grayscale"
                             />

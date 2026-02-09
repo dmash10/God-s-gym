@@ -96,7 +96,7 @@ export default function HeroEditor({ initialData }: HeroEditorProps) {
                         <h3 className="font-heading text-xl font-bold text-white mb-4 uppercase">Live Preview</h3>
                         <div className="relative h-80 rounded-lg overflow-hidden">
                             <img
-                                src={backgroundImage || 'https://via.placeholder.com/800x400?text=No+Image'}
+                                src={backgroundImage || ''}
                                 alt="Hero Preview"
                                 className="w-full h-full object-cover"
                             />

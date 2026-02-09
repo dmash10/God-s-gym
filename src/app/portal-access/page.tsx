@@ -68,7 +68,7 @@ export default async function AdminDashboard() {
                     </div>
                     <div className="relative h-48">
                         <img
-                            src={data.hero.backgroundImage || 'https://via.placeholder.com/800x400?text=No+Image'}
+                            src={data.hero.backgroundImage || ''}
                             alt="Hero"
                             className="w-full h-full object-cover"
                         />

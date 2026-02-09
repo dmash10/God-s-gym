@@ -250,7 +250,7 @@ export default function TrainersEditor({ initialTrainers }: TrainersEditorProps)
                     >
                         <div className="relative h-48">
                             <img
-                                src={trainer.image || 'https://via.placeholder.com/400x500?text=NO+IMAGE'}
+                                src={trainer.image || ''}
                                 alt={trainer.name}
                                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                             />
