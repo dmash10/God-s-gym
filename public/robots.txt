@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /portal-access
+Disallow: /portal-access/*
+
+Sitemap: https://godsgym.com/sitemap.xml

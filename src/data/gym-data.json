@@ -1,0 +1,344 @@
+{
+  "hero": {
+    "title": "BUILD GODLIKE STRENGTH",
+    "backgroundImage": "/images/hero-girl.png"
+  },
+  "programs": [
+    {
+      "id": 1,
+      "title": "HYPERTROPHY",
+      "description": "Scientifically designed for maximum muscle growth.",
+      "longDescription": "Our Hypertrophy program is built on the pillars of tension, stress, and damage. We don't just lift weights; we manipulate physics to force adaptation. This 12-week intensive cycle focuses on high-volume training with specialized techniques like mechanical drop sets and loaded stretches to maximize myofibrillar expansion.",
+      "targetAudience": "Intermediate to Advanced",
+      "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600&h=400&auto=format&fit=crop",
+      "duration": "12 WEEKS",
+      "features": [
+        "Specialized Volume Optimization",
+        "Weekly Form Audits",
+        "Body Composition Analysis",
+        "Custom Supplementation Guide"
+      ],
+      "benefits": [
+        "Maximum Muscle Fiber Recruitment",
+        "Increased Metabolic Rate",
+        "Enhanced Mind-Muscle Connection",
+        "Elite Symmetrical Development"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "FAT LOSS",
+      "description": "High intensity conditioning to shred fat while preserving muscle.",
+      "longDescription": "Strip away the excess and reveal the machine beneath. Our Fat Loss protocols combine high-intensity metabolic conditioning with heavy resistance training to ensure that while the fat burns, the muscle stays. This isn't weight loss; it's body recomposition at the highest level.",
+      "targetAudience": "Everyone",
+      "image": "https://images.unsplash.com/photo-1541534741688-6078c64b59d3?q=80&w=600&h=400&auto=format&fit=crop",
+      "duration": "8 WEEKS",
+      "features": [
+        "Metabolic Conditioning Circuits",
+        "Macronutrient Precision Tracking",
+        "High-Frequency Fat Oxidation Sessions",
+        "24/7 Nutritional Support"
+      ],
+      "benefits": [
+        "Rapid Body Fat Reduction",
+        "Improved Insulin Sensitivity",
+        "Increased Cardiovascular Endurance",
+        "Visceral Fat Targeting"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "STRENGTH",
+      "description": "Powerlifting specific training to increase your SBD total.",
+      "longDescription": "Pure, unadulterated power. This program is for those who live for the big three. We focus on technical proficiency in the Squat, Bench Press, and Deadlift, utilizing RPE-based training and explosive accessory work. Whether you're prep-ping for a meet or just want to move mountains, this is your path.",
+      "targetAudience": "Powerlifters",
+      "image": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=600&h=400&auto=format&fit=crop",
+      "duration": "16 WEEKS",
+      "features": [
+        "RPE & Percentage Based Loading",
+        "Technique Breakdown Analysis",
+        "Peak Cycle Planning",
+        "Mobility for Powerlifting"
+      ],
+      "benefits": [
+        "Significant SBD Total Increase",
+        "Improved Force Production",
+        "Neurological Optimization",
+        "Joint Integrity Support"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "PERSONAL TRAINING",
+      "description": "1-on-1 coaching for tailored results and accountability.",
+      "longDescription": "The ultimate bespoke experience. Your goals, your physiology, your schedule. Our elite trainers will construct a complete ecosystem of training, recovery, and nutrition designed specifically for you. No templates, no generic advice—just results delivered through direct accountability.",
+      "targetAudience": "Beginners & Serious Athletes",
+      "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=600&h=400&auto=format&fit=crop",
+      "duration": "VARIABLE",
+      "features": [
+        "Direct 1-on-1 Professional Coaching",
+        "Fully Custom Training Architecture",
+        "Daily Nutrition Monitoring",
+        "Private Evaluation Sessions"
+      ],
+      "benefits": [
+        "Accelerated Goal Achievement",
+        "Minimized Risk of Injury",
+        "Total Lifestyle Optimization",
+        "Advanced Technical Education"
+      ]
+    }
+  ],
+  "trainers": [
+    {
+      "id": 1,
+      "name": "VIKRAM SINGH",
+      "specialization": "HEAD COACH & BODYBUILDING",
+      "experience": "12 Years Experience",
+      "bio": "Certified advanced trainer with a passion for old school bodybuilding and strength mechanics.",
+      "detailedBio": "Vikram is a veteran of the local bodybuilding scene with over a decade of personal and professional experience. His approach is rooted in the Golden Era principles—prioritizing heavy compound movements and high-intensity isolation work. He believes that building a godlike physique requires both a scientific method and an indomitable spirit.",
+      "image": "/uploads/trainers/trainers-1770461477647.webp",
+      "specialties": [
+        "Classic Physique Prep",
+        "Strength Foundations",
+        "Advanced Periodization",
+        "Muscle Symmetry"
+      ],
+      "socials": {
+        "instagram": "https://instagram.com/vikram_singh",
+        "twitter": "",
+        "facebook": ""
+      },
+      "stats": {
+        "reshaped": "500+",
+        "tier": "ELITE",
+        "certified": "PRO",
+        "success": "98%"
+      }
+    },
+    {
+      "id": 2,
+      "name": "RAHUL SHARMA",
+      "specialization": "Strength & Conditioning",
+      "experience": "8 Years Experience",
+      "bio": "Expert in powerlifting and athletic performance, focused on building pure, functional power.",
+      "detailedBio": "Rahul background in competitive powerlifting gives him a unique edge in developing raw strength. He has coached dozens of athletes to national-level totals. His training philosophy is centered around the 'Big Three' and building a foundation of joint integrity and explosive power that translates to any pursuit.",
+      "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=400&h=500&auto=format&fit=crop",
+      "specialties": [
+        "Powerlifting Mechanics",
+        "Explosive Force Production",
+        "Sports-Specific Performance",
+        "Kettlebell Mastery"
+      ],
+      "socials": {
+        "instagram": "https://instagram.com/rahul_strength",
+        "twitter": "",
+        "facebook": ""
+      },
+      "stats": {
+        "reshaped": "350+",
+        "tier": "MASTER",
+        "certified": "NASM",
+        "success": "96%"
+      }
+    },
+    {
+      "id": 3,
+      "name": "ANJALI VERMA",
+      "specialization": "FAT LOSS & FUNCTIONAL",
+      "experience": "6 Years Experience",
+      "bio": "Specializes in sustainable fat loss and high-intensity interval training for all fitness levels.",
+      "detailedBio": "Anjali is a master of high-density training and metabolic conditioning. She focuses on helping clients shed fat without sacrificing their hard-earned muscle. Her sessions are high-energy and technically demanding, ensuring that every minute in the gym contributes to a leaner, more resilient version of herself.",
+      "image": "/uploads/trainers/trainers-1770461486570.webp",
+      "specialties": [
+        "Metabolic Conditioning",
+        "Recomposition Strategies",
+        "Functional Mobility",
+        "Nutrition Coaching"
+      ],
+      "socials": {
+        "instagram": "https://instagram.com/anjali_fit",
+        "twitter": "",
+        "facebook": ""
+      },
+      "stats": {
+        "reshaped": "200+",
+        "tier": "PRO",
+        "certified": "ACE",
+        "success": "99%"
+      }
+    }
+  ],
+  "plans": [
+    {
+      "id": 1,
+      "title": "BEGINNER",
+      "price": "₹1,500 / mo",
+      "features": [
+        "General Gym Access",
+        "Cardio Zone",
+        "Locker Facility",
+        "General Guidance"
+      ],
+      "isPopular": false
+    },
+    {
+      "id": 2,
+      "title": "STANDARD",
+      "price": "₹3,500 / 3 mo",
+      "features": [
+        "All Access",
+        "Diet Consultation",
+        "Free T-Shirt",
+        "Advanced Machinery Access"
+      ],
+      "isPopular": true
+    },
+    {
+      "id": 3,
+      "title": "ELITE PT",
+      "price": "₹8,000 / mo",
+      "features": [
+        "1-on-1 Personal Training",
+        "Customized Diet Plan",
+        "Weekly Progress Check",
+        "24/7 Support"
+      ],
+      "isPopular": false
+    }
+  ],
+  "transformations": [
+    {
+      "id": 1,
+      "name": "SNEHA RAJPUT",
+      "result": "-8 KG IN 4 MONTHS",
+      "beforeImage": "/uploads/transformations/transformations-1770461284651.webp",
+      "afterImage": "/uploads/transformations/transformations-1770461288883.webp"
+    },
+    {
+      "id": 2,
+      "name": "RAVI RAWAT",
+      "result": "+10 KG MUSCLE MASS",
+      "beforeImage": "/uploads/transformations/transformations-1770461223949.webp",
+      "afterImage": "/uploads/transformations/transformations-1770461227335.webp"
+    }
+  ],
+  "gallery": [
+    "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=2069&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1593079831268-3381b0db4a77?q=80&w=2069&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1550345332-09e3ac987658?q=80&w=1974&auto=format&fit=crop"
+  ],
+  "about": {
+    "headline": "WHO WE ARE",
+    "subheadline": "THE SANCTUARY OF IRON",
+    "description": "God's Gym was founded on a simple, unbreakable principle: **Strength is the ultimate virtue.**\n\nWe are not a fitness club. We are not a spa. We are a training facility dedicated to those who want to push their limits. Located in the heart of Dehradun, we provide the atmosphere, the heavy-duty equipment, and the knowledge required to transform your physique and your mindset.",
+    "bulletPoints": [
+      "FOR THE DEDICATED|Athletes, bodybuilders, and anyone ready to suffer for success.",
+      "NOT FOR THE WEAK|If you're looking for air conditioning and smoothies, look elsewhere."
+    ],
+    "image": "/uploads/about/about-1770462033098.webp"
+  },
+  "siteSettings": {
+    "contactPhone": "+91 98765 43210",
+    "address": "Near SBI Bank, Kargi Chowk, Kanhaiya Vihar, Kargi, Dehradun, Uttarakhand 248121",
+    "instagramUrl": "https://www.instagram.com/godsgym_/",
+    "facebookUrl": "",
+    "whatsappNumber": "919876543210",
+    "hoursWeekday": "5:00 AM - 10:00 PM",
+    "hoursSunday": "4:00 PM - 8:00 PM",
+    "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3445.345!2d78.0!3d30.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDE4JzAwLjAiTiA3OMKwMDAnMDAuMCJF!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin",
+    "announcement": ""
+  },
+  "homepage": {
+    "cta": {
+      "title": "STOP WAITING",
+      "subtitle": "START DOMINATING",
+      "buttonText": "Join the Elite",
+      "buttonLink": "/membership",
+      "backgroundImage": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop"
+    },
+    "philosophy": {
+      "title": "WHERE THE\nELITE ARE FORGED",
+      "subtitle": "THE IRON STANDARD",
+      "description": "We are not a fitness club. We are a sanctuary for those who understand that strength is earned, never given. In these walls, your only competition is the person you were yesterday. No gimmicks, no excuses—just hard work and the indomitable spirit of the iron.",
+      "bulletPoints": [
+        "PURPOSE BUILT ENVIRONMENT",
+        "ARCHITECTS OF STRENGTH",
+        "NO-NONSENSE CULTURE"
+      ],
+      "image": "https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&w=2069&auto=format&fit=crop"
+    },
+    "googleReviews": {
+      "rating": 4.6,
+      "totalReviews": 104,
+      "reviews": [
+        {
+          "id": 1,
+          "name": "Utiksha Rawat",
+          "rating": 5,
+          "timeAgo": "8 months ago",
+          "text": "This gym is excellent. The facilities are modern, and all the equipment is in great condition. The trainers are professional and very supportive. Cleanliness is well-maintained. Working out here is enjoyable and keeps me motivated.",
+          "initial": "U",
+          "color": "#7C3AED"
+        },
+        {
+          "id": 2,
+          "name": "Rachana",
+          "rating": 5,
+          "timeAgo": "6 months ago",
+          "text": "2 months complete no troubles anything, after my first month there was extra security added - fingerprint and face to unlock, yeah that's good join now build for future!!",
+          "initial": "R",
+          "color": "#DB2777"
+        },
+        {
+          "id": 3,
+          "name": "Abhishek Chauhan",
+          "rating": 5,
+          "timeAgo": "2 years ago",
+          "text": "Today was my first day at God Gym And believe me the gym is amazing and gym trainer bhi bahot he friendly hai. If you are looking for gym this is going to be your best decision... hardwork & dedication is the key!",
+          "initial": "A",
+          "color": "#F59E0B"
+        },
+        {
+          "id": 4,
+          "name": "Drishant Bisht",
+          "rating": 5,
+          "timeAgo": "3 years ago",
+          "text": "Well equipped with machinery. Modern and advance equipment for your advance training. You have to be specific about timing because its very crowded at the evening after 6.",
+          "initial": "D",
+          "color": "#6366F1"
+        },
+        {
+          "id": 5,
+          "name": "Dr. Kabir Manchanda",
+          "rating": 5,
+          "timeAgo": "3 years ago",
+          "text": "Wonderful ambiance and hard core gym equipments.",
+          "initial": "K",
+          "color": "#10B981"
+        },
+        {
+          "id": 6,
+          "name": "Rahul Rathour",
+          "rating": 5,
+          "timeAgo": "1 year ago",
+          "text": "Best gym in Dehradun! 💪",
+          "initial": "R",
+          "color": "#EF4444"
+        }
+      ]
+    }
+  },
+  "marquee": [
+    "NO EXCUSES",
+    "TRAIN HARD",
+    "STAY CONSISTENT",
+    "GOD'S GYM",
+    "UNSTOPPABLE FORCE",
+    "ELITE ATHLETES ONLY",
+    "Suffer for Success"
+  ]
+}
