@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, unlink, mkdir } from 'fs/promises';
-import path from 'path';
-import { existsSync } from 'fs';
 import { getSession } from '@/lib/auth';
 import sharp from 'sharp';
+import { put, del } from '@vercel/blob';
 
 // Valid categories for organizing uploads
 const VALID_CATEGORIES = ['hero', 'trainers', 'programs', 'gallery', 'about', 'transformations', 'misc'];
@@ -37,15 +35,8 @@ export async function POST(request: NextRequest) {
 
         // Create unique filename - always use .webp extension
         const timestamp = Date.now();
-        // Sanitize category to prevent any potential path issues
         const cleanCategory = category.replace(/[^a-z0-9]/gi, '');
         const filename = `${cleanCategory}-${timestamp}.webp`;
-
-        // Ensure upload directory exists
-        const uploadDir = path.join(process.cwd(), 'public', 'uploads', cleanCategory);
-        if (!existsSync(uploadDir)) {
-            await mkdir(uploadDir, { recursive: true });
-        }
 
         // Convert file to buffer
         const bytes = await file.arrayBuffer();
@@ -56,35 +47,25 @@ export async function POST(request: NextRequest) {
             .webp({ quality: 80 })
             .toBuffer();
 
-        const filePath = path.join(uploadDir, filename);
-        await writeFile(filePath, webpBuffer);
+        // Upload to Vercel Blob
+        const blob = await put(`uploads/${cleanCategory}/${filename}`, webpBuffer, {
+            access: 'public',
+            contentType: 'image/webp',
+        });
 
-        // Delete old image if provided and it's a local upload (not an external URL)
-        if (oldImagePath && oldImagePath.startsWith('/uploads/')) {
-            // Secure path resolution: only allow files within the uploads folder
-            const safePath = oldImagePath.replace(/^\/uploads\//, '');
-            // Prevent traversal by taking only the filename and category parts if applicable
-            // But a more robust way is to re-construct from basename
-            const oldFilename = path.basename(safePath);
-            const oldCategory = safePath.split('/')[0];
-
-            if (VALID_CATEGORIES.includes(oldCategory)) {
-                const oldFullPath = path.join(process.cwd(), 'public', 'uploads', oldCategory, oldFilename);
-                try {
-                    if (existsSync(oldFullPath)) {
-                        await unlink(oldFullPath);
-                    }
-                } catch (err) {
-                    console.warn('Could not delete old image:', err);
-                }
+        // Delete old image if provided and it's a Vercel Blob URL
+        if (oldImagePath && oldImagePath.includes('vercel-storage.com')) {
+            try {
+                await del(oldImagePath);
+            } catch (err) {
+                console.warn('Could not delete old image:', err);
             }
         }
 
-        // Return the public URL path
-        const publicPath = `/uploads/${cleanCategory}/${filename}`;
+        // Return the Vercel Blob URL
         return NextResponse.json({
             success: true,
-            path: publicPath,
+            path: blob.url,
             filename
         });
 
@@ -104,30 +85,19 @@ export async function DELETE(request: NextRequest) {
 
         const { imagePath } = await request.json();
 
-        if (!imagePath || !imagePath.startsWith('/uploads/')) {
-            return NextResponse.json({ error: 'Invalid image path' }, { status: 400 });
+        if (!imagePath) {
+            return NextResponse.json({ error: 'No image path provided' }, { status: 400 });
         }
 
-        // Secure path resolution to prevent traversal
-        const safePath = imagePath.replace(/^\/uploads\//, '');
-        const filename = path.basename(safePath);
-        const category = safePath.split('/')[0];
-
-        if (!VALID_CATEGORIES.includes(category)) {
-            return NextResponse.json({ error: 'Invalid image path category' }, { status: 400 });
-        }
-
-        const fullPath = path.join(process.cwd(), 'public', 'uploads', category, filename);
-
-        if (existsSync(fullPath)) {
-            await unlink(fullPath);
+        // Only delete Vercel Blob URLs
+        if (imagePath.includes('vercel-storage.com')) {
+            await del(imagePath);
             return NextResponse.json({ success: true });
         } else {
-            return NextResponse.json({ error: 'File not found' }, { status: 404 });
+            return NextResponse.json({ error: 'Cannot delete non-blob images' }, { status: 400 });
         }
     } catch (error) {
         console.error('Delete error:', error);
         return NextResponse.json({ error: 'Delete failed' }, { status: 500 });
     }
 }
-
