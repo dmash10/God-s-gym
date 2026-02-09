@@ -1,7 +1,6 @@
-import fs from 'fs/promises';
-import path from 'path';
 import MembershipClient from './MembershipClient';
 import { Metadata } from 'next';
+import { getGymData } from '@/lib/actions';
 
 export const metadata: Metadata = {
     title: "Memberships | Join God's Gym",
@@ -9,13 +8,7 @@ export const metadata: Metadata = {
     keywords: ["gym membership", "fitness plans", "personal training cost", "Dehradun gym fees"]
 };
 
-async function getData() {
-    const filePath = path.join(process.cwd(), 'src', 'data', 'gym-data.json');
-    const fileContents = await fs.readFile(filePath, 'utf-8');
-    return JSON.parse(fileContents);
-}
-
 export default async function Membership() {
-    const data = await getData();
+    const data = await getGymData();
     return <MembershipClient plans={data.plans} />;
 }

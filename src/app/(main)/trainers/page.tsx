@@ -1,10 +1,9 @@
-import fs from 'fs/promises';
-import path from 'path';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { Reveal, StaggerContainer } from '@/components/Reveal';
 import { TrainerCard } from '@/components/TrainerCard';
 import { ArrowUpRight } from 'lucide-react';
+import { getGymData } from '@/lib/actions';
 
 export const metadata: Metadata = {
     title: "Meet the Team | God's Gym Elite Trainers",
@@ -12,14 +11,8 @@ export const metadata: Metadata = {
     keywords: ["gym trainers", "fitness coaches", "personal training", "elite coaching", "Dehradun trainers"]
 };
 
-async function getData() {
-    const filePath = path.join(process.cwd(), 'src', 'data', 'gym-data.json');
-    const fileContents = await fs.readFile(filePath, 'utf-8');
-    return JSON.parse(fileContents);
-}
-
 export default async function Trainers() {
-    const data = await getData();
+    const data = await getGymData();
     const trainers = data.trainers || [];
 
     return (

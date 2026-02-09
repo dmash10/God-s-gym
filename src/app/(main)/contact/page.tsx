@@ -1,17 +1,10 @@
-import fs from 'fs/promises';
-import path from 'path';
 import { Reveal } from '@/components/Reveal';
-import { Phone, MapPin, MessageSquare, Send } from 'lucide-react';
+import { Phone, MapPin, MessageSquare } from 'lucide-react';
 import ContactForm from './ContactForm';
-
-async function getData() {
-    const filePath = path.join(process.cwd(), 'src', 'data', 'gym-data.json');
-    const fileContents = await fs.readFile(filePath, 'utf-8');
-    return JSON.parse(fileContents);
-}
+import { getGymData } from '@/lib/actions';
 
 export default async function Contact() {
-    const data = await getData();
+    const data = await getGymData();
     const settings = data.siteSettings || {
         contactPhone: '+91 98765 43210',
         address: 'Near SBI Bank, Kargi Chowk, Dehradun',
@@ -101,4 +94,3 @@ export default async function Contact() {
         </div>
     );
 }
-

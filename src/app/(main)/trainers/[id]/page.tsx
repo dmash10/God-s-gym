@@ -1,5 +1,3 @@
-import fs from 'fs/promises';
-import path from 'path';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Reveal } from '@/components/Reveal';
@@ -16,12 +14,11 @@ import {
     Globe
 } from 'lucide-react';
 import { notFound } from 'next/navigation';
+import { getGymData } from '@/lib/actions';
 
 export default async function TrainerDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const dataPath = path.join(process.cwd(), 'src/data/gym-data.json');
-    const file = await fs.readFile(dataPath, 'utf8');
-    const data = JSON.parse(file);
+    const data = await getGymData();
 
     const trainer = data.trainers.find((t: any) => t.id === parseInt(id));
 

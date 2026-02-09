@@ -1,5 +1,3 @@
-import fs from 'fs/promises';
-import path from 'path';
 import Link from 'next/link';
 import { Reveal, StaggerContainer } from '@/components/Reveal';
 import { ProgramCard } from '@/components/ProgramCard';
@@ -10,15 +8,10 @@ import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import PromoSection from '@/components/PromoSection';
 import TextRevealSection from '@/components/TextRevealSection';
 import HorizontalScrollSection from '@/components/HorizontalScrollSection';
-
-async function getData() {
-  const filePath = path.join(process.cwd(), 'src', 'data', 'gym-data.json');
-  const fileContents = await fs.readFile(filePath, 'utf-8');
-  return JSON.parse(fileContents);
-}
+import { getGymData } from '@/lib/actions';
 
 export default async function Home() {
-  const data = await getData();
+  const data = await getGymData();
   const { hero, programs, trainers, transformations, about, siteSettings, homepage } = data;
   const cta = homepage?.cta || {
     title: "STOP WAITING",

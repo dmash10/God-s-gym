@@ -1,16 +1,13 @@
-import fs from 'fs/promises';
-import path from 'path';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/Reveal';
 import { ArrowLeft, CheckCircle2, Trophy, Target, Clock, Users, ArrowRight, Shield, Zap } from 'lucide-react';
 import { notFound } from 'next/navigation';
+import { getGymData } from '@/lib/actions';
 
 export default async function ProgramDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const dataPath = path.join(process.cwd(), 'src/data/gym-data.json');
-    const file = await fs.readFile(dataPath, 'utf8');
-    const data = JSON.parse(file);
+    const data = await getGymData();
 
     const program = data.programs.find((p: any) => p.id === parseInt(id));
 

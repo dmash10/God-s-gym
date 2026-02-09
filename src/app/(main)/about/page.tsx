@@ -1,8 +1,7 @@
-import fs from 'fs/promises';
-import path from 'path';
 import Image from 'next/image';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/Reveal';
 import { Metadata } from 'next';
+import { getGymData } from '@/lib/actions';
 
 export const metadata: Metadata = {
     title: "About Us | The God's Gym Culture",
@@ -10,14 +9,8 @@ export const metadata: Metadata = {
     keywords: ["about gym", "gym mission", "fitness philosophy", "Dehradun strength history"]
 };
 
-async function getData() {
-    const filePath = path.join(process.cwd(), 'src', 'data', 'gym-data.json');
-    const fileContents = await fs.readFile(filePath, 'utf-8');
-    return JSON.parse(fileContents);
-}
-
 export default async function About() {
-    const data = await getData();
+    const data = await getGymData();
     const about = data.about;
 
     // Split description by newlines for paragraphs
