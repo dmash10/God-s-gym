@@ -7,7 +7,8 @@ import ImageUploader from '@/components/admin/ImageUploader';
 
 interface PhilosophyData {
     title: string;
-    description: string;
+    subtitle?: string;
+    description?: string;
     bulletPoints: string[];
     image: string;
 }
