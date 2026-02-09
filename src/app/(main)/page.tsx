@@ -297,7 +297,7 @@ export default async function Home() {
       }
 
       {/* --- GOOGLE REVIEWS STRIPE --- */}
-      {homepage?.googleReviews && <GoogleReviewStripe data={homepage.googleReviews} />}
+      {(homepage as any)?.googleReviews && <GoogleReviewStripe data={(homepage as any).googleReviews} />}
 
 
       {/* --- BIG CTA --- */}
