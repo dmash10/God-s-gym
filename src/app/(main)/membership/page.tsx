@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 
 export default async function Membership() {
     const data = await getGymData();
-    return <MembershipClient plans={data.plans} />;
+    return <MembershipClient plans={data.plans} whatsappNumber={data.siteSettings?.whatsappNumber} />;
 }

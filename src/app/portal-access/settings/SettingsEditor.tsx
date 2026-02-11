@@ -15,6 +15,7 @@ interface SiteSettings {
     hoursSunday: string;
     mapUrl: string;
     announcement: string;
+    contactEmail: string;
 }
 
 interface SettingsEditorProps {
@@ -115,6 +116,21 @@ export default function SettingsEditor({ initialData }: SettingsEditorProps) {
                         Contact Information
                     </h3>
                     <div className="space-y-4">
+                        <div className="relative group/email">
+                            <label className="block text-[10px] font-bold text-god-accent uppercase tracking-[0.2em] mb-2">Contact Email</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-god-accent/40 group-focus-within/email:text-god-accent transition-colors">
+                                    <Globe className="h-4 w-4" />
+                                </div>
+                                <input
+                                    type="email"
+                                    value={formData.contactEmail}
+                                    onChange={(e) => updateField('contactEmail', e.target.value)}
+                                    className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-god-accent transition-all"
+                                    placeholder="info@godsgym.com"
+                                />
+                            </div>
+                        </div>
                         <div className="relative group/phone">
                             <label className="block text-[10px] font-bold text-god-accent uppercase tracking-[0.2em] mb-2">Phone Number</label>
                             <div className="relative">

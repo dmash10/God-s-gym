@@ -103,7 +103,7 @@
 }
 
 .no-transition {
-  @apply !transition-none;
+  transition: none !important;
 }
 
 .font-heading {

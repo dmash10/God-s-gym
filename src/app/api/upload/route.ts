@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase';
 import { getSession } from '@/lib/auth';
 import sharp from 'sharp';
-import { put, del } from '@vercel/blob';
 
-// Valid categories for organizing uploads
-const VALID_CATEGORIES = ['hero', 'trainers', 'programs', 'gallery', 'about', 'transformations', 'misc'];
+const VALID_CATEGORIES = ['hero', 'trainers', 'programs', 'gallery', 'about', 'transformations', 'cta', 'misc'];
 
 export async function POST(request: NextRequest) {
     try {
+        // Check auth
         const session = await getSession();
         if (!session) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -22,7 +22,6 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'No file provided' }, { status: 400 });
         }
 
-        // Validate category
         if (!VALID_CATEGORIES.includes(category)) {
             return NextResponse.json({ error: 'Invalid category' }, { status: 400 });
         }
@@ -30,52 +29,105 @@ export async function POST(request: NextRequest) {
         // Validate file type
         const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
         if (!allowedTypes.includes(file.type)) {
-            return NextResponse.json({ error: 'Invalid file type. Only JPEG, PNG, WebP, and GIF are allowed.' }, { status: 400 });
+            return NextResponse.json({ error: 'Invalid file type' }, { status: 400 });
         }
 
-        // Create unique filename - always use .webp extension
+        // Create unique filename
         const timestamp = Date.now();
         const cleanCategory = category.replace(/[^a-z0-9]/gi, '');
+        const siteSlug = process.env.SITE_SLUG || 'default';
         const filename = `${cleanCategory}-${timestamp}.webp`;
+        const filePath = `${siteSlug}/${cleanCategory}/${filename}`;
 
-        // Convert file to buffer
+        // Smart max dimensions per category
+        const maxWidths: Record<string, number> = {
+            hero: 2560,
+            cta: 2560,
+            about: 1920,
+            gallery: 1600,
+            trainers: 1200,
+            programs: 1200,
+            transformations: 1200,
+            misc: 1200,
+        };
+        const maxWidth = maxWidths[category] || 1200;
+
+        // Resize + convert to WebP
         const bytes = await file.arrayBuffer();
         const inputBuffer = Buffer.from(bytes);
+        const metadata = await sharp(inputBuffer).metadata();
+        const originalWidth = metadata.width || 0;
+        const originalHeight = metadata.height || 0;
 
-        // Convert to WebP using sharp (quality 80 for good balance of size/quality)
-        const webpBuffer = await sharp(inputBuffer)
-            .webp({ quality: 80 })
+        let pipeline = sharp(inputBuffer);
+
+        // Only resize if image exceeds max width
+        if (originalWidth > maxWidth) {
+            pipeline = pipeline.resize({ width: maxWidth, withoutEnlargement: true });
+        }
+
+        const webpBuffer = await pipeline
+            .webp({ quality: 85 })
             .toBuffer();
 
-        // Upload to Vercel Blob
-        const blob = await put(`uploads/${cleanCategory}/${filename}`, webpBuffer, {
-            access: 'public',
-            contentType: 'image/webp',
-        });
+        const savedKB = Math.round((inputBuffer.length - webpBuffer.length) / 1024);
 
-        // Delete old image if provided and it's a Vercel Blob URL
-        if (oldImagePath && oldImagePath.includes('vercel-storage.com')) {
+        const supabase = await createClient();
+
+        // Upload to Supabase Storage
+        const { error: uploadError } = await supabase.storage
+            .from('uploads')
+            .upload(filePath, webpBuffer, {
+                contentType: 'image/webp',
+                cacheControl: '31536000',
+                upsert: false
+            });
+
+        if (uploadError) {
+            console.error('Supabase upload error:', uploadError);
+            return NextResponse.json({ error: 'Upload failed', details: uploadError.message }, { status: 500 });
+        }
+
+        // Get public URL
+        const { data: { publicUrl } } = supabase.storage
+            .from('uploads')
+            .getPublicUrl(filePath);
+
+        // Auto-delete old image if provided (except for gallery)
+        if (oldImagePath && category !== 'gallery') {
             try {
-                await del(oldImagePath);
+                // Extract the path after 'uploads/' regardless of whether it's a full URL or relative path
+                const pathIdentifier = '/uploads/';
+                const alternateIdentifier = 'uploads/';
+
+                let oldPath = '';
+                if (oldImagePath.includes(pathIdentifier)) {
+                    oldPath = oldImagePath.split(pathIdentifier)[1];
+                } else if (oldImagePath.includes(alternateIdentifier)) {
+                    oldPath = oldImagePath.split(alternateIdentifier)[1];
+                }
+
+                if (oldPath && !oldPath.startsWith('http')) {
+                    await supabase.storage.from('uploads').remove([oldPath]);
+                }
             } catch (err) {
                 console.warn('Could not delete old image:', err);
             }
         }
 
-        // Return the Vercel Blob URL
         return NextResponse.json({
             success: true,
-            path: blob.url,
-            filename
+            path: publicUrl,
+            filename,
+            savedKB
         });
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Upload error:', error);
-        return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
+        return NextResponse.json({ error: 'Upload failed', details: error.message }, { status: 500 });
     }
 }
 
-// DELETE handler to remove images
 export async function DELETE(request: NextRequest) {
     try {
         const session = await getSession();
@@ -89,15 +141,26 @@ export async function DELETE(request: NextRequest) {
             return NextResponse.json({ error: 'No image path provided' }, { status: 400 });
         }
 
-        // Only delete Vercel Blob URLs
-        if (imagePath.includes('vercel-storage.com')) {
-            await del(imagePath);
-            return NextResponse.json({ success: true });
-        } else {
-            return NextResponse.json({ error: 'Cannot delete non-blob images' }, { status: 400 });
+        const supabase = await createClient();
+
+        let pathToDelete = '';
+        if (imagePath.includes('/uploads/')) {
+            pathToDelete = imagePath.split('/uploads/')[1];
+        } else if (imagePath.includes('uploads/')) {
+            pathToDelete = imagePath.split('uploads/')[1];
         }
-    } catch (error) {
+
+        if (pathToDelete && !pathToDelete.startsWith('http')) {
+            const { error } = await supabase.storage.from('uploads').remove([pathToDelete]);
+            if (error) {
+                return NextResponse.json({ error: 'Delete failed', details: error.message }, { status: 500 });
+            }
+        }
+
+        return NextResponse.json({ success: true });
+
+    } catch (error: any) {
         console.error('Delete error:', error);
-        return NextResponse.json({ error: 'Delete failed' }, { status: 500 });
+        return NextResponse.json({ error: 'Delete failed', details: error.message }, { status: 500 });
     }
 }

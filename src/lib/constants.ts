@@ -6,6 +6,7 @@ export const NAV_ITEMS: NavItem[] = [
     { label: 'PROGRAMS', path: '/programs' },
     { label: 'TRAINERS', path: '/trainers' },
     { label: 'GALLERY', path: '/gallery' },
+    { label: 'RESULTS', path: '/transformations' },
     { label: 'MEMBERSHIP', path: '/membership' },
     { label: 'CONTACT', path: '/contact' },
 ];
@@ -109,7 +110,7 @@ export const TRANSFORMATIONS: Transformation[] = [
     }
 ];
 
-export const WHATSAPP_NUMBER = "919876543210"; // Dummy number
+export const WHATSAPP_NUMBER = "919897638649";
 export const CONTACT_PHONE = "+91 98765 43210";
 export const ADDRESS = "Near SBI Bank, Kargi Chowk, Kanhaiya Vihar, Kargi, Dehradun, Uttarakhand 248121";
 export const MAP_URL = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3445.345!2d78.0!3d30.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDE4JzAwLjAiTiA3OMKwMDAnMDAuMCJF!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin";

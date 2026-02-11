@@ -7,12 +7,21 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import gymGirl from '../../public/images/gym-girl.png';
 
-const PromoSection = () => {
+const PromoSection = ({ data }: { data?: any }) => {
     const sectionRef = useRef<HTMLElement>(null);
     const { scrollYProgress } = useScroll({
         target: sectionRef,
         offset: ["start end", "end start"]
     });
+
+    const promo = data || {
+        headline: "Book your Intro",
+        subheadline: "and redefine your limitless potential.",
+        accentText: "Session",
+        description: "PROMOTION",
+        buttonText: "Start Your Journey",
+        buttonLink: "/contact"
+    };
 
     // Parallax transformations
     const girlX = useTransform(scrollYProgress, [0, 1], [100, -100]);
@@ -22,7 +31,7 @@ const PromoSection = () => {
     return (
         <section
             ref={sectionRef}
-            className="relative h-[600px] sm:h-[700px] bg-god-red overflow-hidden flex items-center"
+            className="relative h-[500px] sm:h-[700px] bg-god-red overflow-hidden flex items-center"
         >
             {/* Background Decorative Text */}
             <div className="absolute inset-0 flex flex-col justify-center pointer-events-none select-none overflow-hidden opacity-20">
@@ -49,7 +58,7 @@ const PromoSection = () => {
                         viewport={{ once: true }}
                         className="text-white/80 font-black tracking-[0.3em] text-xs uppercase mb-4 block"
                     >
-                        PROMOTION
+                        {promo.description}
                     </motion.span>
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
@@ -58,10 +67,9 @@ const PromoSection = () => {
                         transition={{ delay: 0.1 }}
                         className="font-heading text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase italic leading-[0.9] mb-8"
                     >
-                        Book your Intro <br />
-                        <span className="text-black">Session</span> and <br />
-                        redefine your <br />
-                        limitless potential.
+                        {promo.headline} <br />
+                        <span className="text-black">{promo.accentText}</span> {promo.subheadline.includes('and') ? <br /> : null}
+                        {promo.subheadline}
                     </motion.h2>
 
                     <motion.div
@@ -71,10 +79,10 @@ const PromoSection = () => {
                         transition={{ delay: 0.2 }}
                     >
                         <Link
-                            href="/contact"
+                            href={promo.buttonLink}
                             className="bg-white text-black px-8 py-4 rounded-full font-heading font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all duration-300 flex items-center gap-2 w-fit group"
                         >
-                            Start Your Journey
+                            {promo.buttonText}
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </motion.div>
@@ -84,7 +92,7 @@ const PromoSection = () => {
                 <div className="relative h-full block">
                     <motion.div
                         style={{ x: girlX }}
-                        className="absolute bottom-[-180px] sm:bottom-[-240px] right-[-150px] sm:right-[120px] w-[320px] sm:w-[450px] h-[512px] sm:h-[720px]"
+                        className="absolute bottom-[-180px] sm:bottom-[-240px] right-[-50px] sm:right-[120px] w-[320px] sm:w-[450px] h-[512px] sm:h-[720px]"
                     >
                         <Image
                             src={gymGirl}

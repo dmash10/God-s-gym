@@ -1,10 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Turbopack is enabled by default in Next.js 15+ dev mode, 
-  // removing 'webpack' forcing to allow Rust-based engine.
   images: {
     remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'jsjccnqzmplqacenmhew.supabase.co',
+      },
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
@@ -18,6 +20,10 @@ const nextConfig: NextConfig = {
         hostname: 'plus.unsplash.com',
       },
     ],
+    // Next.js will auto-serve WebP/AVIF to supported browsers
+    formats: ['image/avif', 'image/webp'],
+    // Generate responsive sizes for hero-class images
+    deviceSizes: [640, 828, 1080, 1200, 1920, 2048, 2560],
   },
   reactStrictMode: true,
 };

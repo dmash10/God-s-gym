@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { addTransformation, updateTransformation, deleteTransformation } from '@/lib/actions';
-import { Plus, Edit, Trash2, X, Save, User, Award } from 'lucide-react';
+import { Plus, Edit, Trash2, X, Save, User, Award, ExternalLink } from 'lucide-react';
 import ImageUploader from '@/components/admin/ImageUploader';
+import Link from 'next/link';
 
 interface Transformation {
     id: number;
@@ -81,13 +82,22 @@ export default function TransformationsEditor({ initialData }: TransformationsEd
                     <h1 className="font-heading text-4xl font-bold text-white uppercase tracking-tight">Transformations</h1>
                     <p className="text-god-muted mt-2">Showcase your members' success stories.</p>
                 </div>
-                <button
-                    onClick={openAddModal}
-                    className="flex items-center gap-2 px-6 py-3 bg-god-accent text-black font-bold rounded-lg hover:bg-white transition-colors"
-                >
-                    <Plus className="h-5 w-5" />
-                    Add Story
-                </button>
+                <div className="flex items-center gap-3">
+                    <Link
+                        href="/transformations"
+                        target="_blank"
+                        className="flex items-center gap-2 px-4 py-3 border border-white/20 text-white font-bold rounded-lg hover:bg-white/5 transition-colors text-sm"
+                    >
+                        <ExternalLink className="h-4 w-4" /> View Live Page
+                    </Link>
+                    <button
+                        onClick={openAddModal}
+                        className="flex items-center gap-2 px-6 py-3 bg-god-accent text-black font-bold rounded-lg hover:bg-white transition-colors"
+                    >
+                        <Plus className="h-5 w-5" />
+                        Add Story
+                    </button>
+                </div>
             </div>
 
             {message && (

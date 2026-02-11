@@ -4,6 +4,7 @@ import { Reveal, StaggerContainer, StaggerItem } from '@/components/Reveal';
 import { ArrowLeft, CheckCircle2, Trophy, Target, Clock, Users, ArrowRight, Shield, Zap } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { getGymData } from '@/lib/actions';
+import { getWhatsAppUrl } from '@/lib/utils';
 
 export default async function ProgramDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -151,7 +152,11 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                                 </p>
 
                                 <div className="space-y-4">
-                                    <Link href="/contact" className="w-full relative overflow-hidden group flex justify-center items-center h-14 bg-god-accent text-black text-sm transition-all">
+                                    <Link
+                                        href={getWhatsAppUrl(data.siteSettings?.whatsappNumber || '919897638649', `Hi, I'm interested in the ${program.title} program and I'm ready to begin my transformation!`)}
+                                        target="_blank"
+                                        className="w-full relative overflow-hidden group flex justify-center items-center h-14 bg-god-accent text-black text-sm transition-all"
+                                    >
                                         <span className="relative z-10 font-heading font-bold uppercase tracking-widest">Book Session</span>
                                         <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
                                     </Link>

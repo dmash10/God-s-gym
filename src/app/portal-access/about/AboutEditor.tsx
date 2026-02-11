@@ -11,14 +11,25 @@ interface AboutData {
     description: string;
     bulletPoints: string[];
     image: string;
+    pillars?: Array<{ id: string; title: string; desc: string }>;
 }
 
 interface AboutEditorProps {
     initialData: AboutData;
 }
 
+const defaultPillars = [
+    { id: '01', title: 'INTENSITY', desc: 'Every rep counts. No half measures.' },
+    { id: '02', title: 'DISCIPLINE', desc: 'The foundation of true greatness.' },
+    { id: '03', title: 'EXCELLENCE', desc: 'Winning is a habit, not an act.' },
+    { id: '04', title: 'COMMUNITY', desc: 'Stronger as one. Forged in iron.' },
+];
+
 export default function AboutEditor({ initialData }: AboutEditorProps) {
-    const [formData, setFormData] = useState<AboutData>(initialData);
+    const [formData, setFormData] = useState<AboutData>({
+        ...initialData,
+        pillars: initialData.pillars?.length ? initialData.pillars : defaultPillars
+    });
     const [isSaving, setIsSaving] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -48,6 +59,14 @@ export default function AboutEditor({ initialData }: AboutEditorProps) {
         setFormData({ ...formData, bulletPoints: newPoints });
     };
 
+    const updatePillar = (index: number, field: 'title' | 'desc', value: string) => {
+        const newPillars = [...(formData.pillars || [])];
+        if (newPillars[index]) {
+            newPillars[index] = { ...newPillars[index], [field]: value };
+            setFormData({ ...formData, pillars: newPillars });
+        }
+    };
+
     return (
         <div className="bg-god-card border border-white/10 rounded-2xl overflow-hidden mb-12">
             {/* Section Header */}
@@ -73,12 +92,12 @@ export default function AboutEditor({ initialData }: AboutEditorProps) {
                     </div>
                 )}
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    {/* Form */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {/* Left: Core Content */}
                     <div className="space-y-6">
                         <div className="bg-god-card border border-white/10 rounded-xl p-6 space-y-4">
                             <h3 className="font-heading text-lg font-bold text-white uppercase border-b border-white/10 pb-3">
-                                Core Content
+                                Story Content
                             </h3>
 
                             <div className="space-y-4">
@@ -116,76 +135,65 @@ export default function AboutEditor({ initialData }: AboutEditorProps) {
 
                                 <div className="relative group/desc">
                                     <label className="block text-[10px] font-bold text-god-accent uppercase tracking-[0.2em] mb-2">Description</label>
-                                    <div className="relative">
-                                        <div className="absolute top-3 left-4 pointer-events-none text-god-accent/40 group-focus-within/desc:text-god-accent transition-colors">
-                                            <AlignLeft className="h-4 w-4" />
-                                        </div>
-                                        <textarea
-                                            value={formData.description}
-                                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                            rows={8}
-                                            className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-god-accent resize-none transition-all leading-relaxed"
-                                            placeholder="Write your story here..."
-                                        />
-                                    </div>
-                                    <p className="text-god-muted text-[10px] mt-1 italic">Use **text** for bolding.</p>
+                                    <textarea
+                                        value={formData.description}
+                                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                        rows={8}
+                                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-god-accent resize-none transition-all leading-relaxed text-sm ring-1 ring-white/5 focus:ring-god-accent/20"
+                                        placeholder="Write your story here..."
+                                    />
                                 </div>
                             </div>
                         </div>
 
                         {/* Highlight Points */}
                         <div className="bg-god-card border border-white/10 rounded-xl p-6">
-                            <div className="flex items-center gap-2 mb-4 border-b border-white/10 pb-3">
-                                <h3 className="font-heading text-lg font-bold text-white uppercase">
-                                    Fixed Highlight Points
-                                </h3>
-                                <div className="group relative">
-                                    <AlertCircle className="h-4 w-4 text-god-muted cursor-help" />
-                                    <div className="absolute left-0 bottom-full mb-2 w-64 p-2 bg-black border border-white/10 rounded text-xs text-god-muted opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                                        The design is fixed to 2 points: First is Yellow, Second is Red.
+                            <h3 className="font-heading text-lg font-bold text-white uppercase border-b border-white/10 pb-3 mb-4 flex items-center gap-2">
+                                <Edit3 className="h-4 w-4 text-god-accent" />
+                                Highlights
+                            </h3>
+                            <div className="space-y-4">
+                                <div className="p-4 bg-white/5 rounded-lg border-l-4 border-god-accent group/point hover:bg-white/10 transition-all cursor-pointer ring-1 ring-white/5 focus-within:ring-god-accent/50">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <p className="text-[10px] font-bold text-god-accent/60 uppercase tracking-widest group-hover/point:text-god-accent transition-colors">First Point (Gold)</p>
+                                        <Edit3 className="h-3 w-3 text-white/20 group-hover/point:text-god-accent transition-colors" />
                                     </div>
-                                </div>
-                            </div>
-
-                            <div className="space-y-6">
-                                {/* Point 1 (Yellow) */}
-                                <div className="p-4 bg-white/5 rounded-lg border-l-4 border-god-accent">
-                                    <p className="text-[10px] font-bold text-god-accent uppercase mb-2">First Point (Yellow Border)</p>
-                                    <div className="space-y-3">
+                                    <div className="space-y-2">
                                         <input
                                             type="text"
                                             value={point1Title}
                                             onChange={(e) => updatePoint(0, e.target.value, point1Desc)}
-                                            className="w-full px-3 py-2 bg-black/40 border border-white/10 rounded text-white text-sm focus:outline-none focus:border-god-accent"
-                                            placeholder="Title (e.g., FOR THE DEDICATED)"
+                                            className="w-full bg-white/5 border border-white/10 rounded px-2 py-1.5 text-god-accent text-xs font-bold focus:outline-none focus:border-god-accent transition-all uppercase placeholder:text-white/20"
+                                            placeholder="TITLE"
                                         />
                                         <textarea
                                             value={point1Desc}
                                             onChange={(e) => updatePoint(0, point1Title, e.target.value)}
-                                            className="w-full px-3 py-2 bg-black/40 border border-white/10 rounded text-white text-sm focus:outline-none focus:border-god-accent resize-none"
-                                            placeholder="Brief description..."
+                                            className="w-full bg-white/5 border border-white/10 rounded px-2 py-1.5 text-white text-[11px] focus:outline-none focus:border-god-accent transition-all resize-none leading-relaxed placeholder:text-white/20"
                                             rows={2}
+                                            placeholder="Description..."
                                         />
                                     </div>
                                 </div>
-
-                                {/* Point 2 (Red) */}
-                                <div className="p-4 bg-white/5 rounded-lg border-l-4 border-red-600">
-                                    <p className="text-[10px] font-bold text-red-500 uppercase mb-2">Second Point (Red Border)</p>
-                                    <div className="space-y-3">
+                                <div className="p-4 bg-white/5 rounded-lg border-l-4 border-red-600 group/point transition-all hover:bg-white/10 cursor-pointer ring-1 ring-white/5 focus-within:ring-red-600/50">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <p className="text-[10px] font-bold text-red-600/60 uppercase tracking-widest group-hover/point:text-red-500 transition-colors">Second Point (Red)</p>
+                                        <Edit3 className="h-3 w-3 text-white/20 group-hover/point:text-red-600 transition-colors" />
+                                    </div>
+                                    <div className="space-y-2">
                                         <input
                                             type="text"
                                             value={point2Title}
                                             onChange={(e) => updatePoint(1, e.target.value, point2Desc)}
-                                            className="w-full px-3 py-2 bg-black/40 border border-white/10 rounded text-white text-sm focus:outline-none focus:border-red-600"
-                                            placeholder="Title (e.g., NOT FOR THE WEAK)"
+                                            className="w-full bg-white/5 border border-white/10 rounded px-2 py-1.5 text-red-500 text-xs font-bold focus:outline-none focus:border-red-500 transition-all uppercase placeholder:text-white/20"
+                                            placeholder="TITLE"
                                         />
                                         <textarea
                                             value={point2Desc}
                                             onChange={(e) => updatePoint(1, point2Title, e.target.value)}
-                                            className="w-full px-3 py-2 bg-black/40 border border-white/10 rounded text-white text-sm focus:outline-none focus:border-red-600 resize-none"
-                                            placeholder="Brief description..."
+                                            className="w-full bg-white/5 border border-white/10 rounded px-2 py-1.5 text-white text-[11px] focus:outline-none focus:border-red-500 transition-all resize-none leading-relaxed placeholder:text-white/20"
                                             rows={2}
+                                            placeholder="Description..."
                                         />
                                     </div>
                                 </div>
@@ -193,15 +201,64 @@ export default function AboutEditor({ initialData }: AboutEditorProps) {
                         </div>
                     </div>
 
-                    {/* Image */}
-                    <div className="bg-god-card border border-white/10 rounded-xl p-6">
-                        <ImageUploader
-                            currentImage={formData.image}
-                            onImageChange={(path) => setFormData({ ...formData, image: path })}
-                            category="about"
-                            label="About Section Image"
-                            aspectRatio="4/3"
-                        />
+                    {/* Middle: Pillars */}
+                    <div className="space-y-6">
+                        <div className="bg-god-card border border-white/10 rounded-xl p-6 space-y-4">
+                            <h3 className="font-heading text-lg font-bold text-white uppercase border-b border-white/10 pb-3 mb-4">
+                                Core Pillars
+                            </h3>
+                            <div className="grid grid-cols-1 gap-4">
+                                {(formData.pillars || []).map((pillar, i) => (
+                                    <div key={i} className="p-4 bg-white/5 rounded-lg border border-white/10 relative overflow-hidden group/pill hover:border-god-accent/40 hover:bg-white/10 transition-all cursor-pointer ring-1 ring-white/5 focus-within:ring-god-accent/30">
+                                        <div className="absolute top-2 right-4 text-2xl font-black text-god-accent/10 group-hover/pill:text-god-accent/20 transition-colors">{pillar.id}</div>
+                                        <div className="flex items-center justify-between mb-3 relative z-10">
+                                            <div className="flex items-center gap-2">
+                                                <Edit3 className="h-3 w-3 text-white/20 group-hover/pill:text-god-accent transition-colors shrink-0" />
+                                                <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest group-hover/pill:text-god-accent/60 transition-colors">Pillar {pillar.id}</p>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2 relative z-10 pl-5">
+                                            <input
+                                                type="text"
+                                                value={pillar.title}
+                                                onChange={(e) => updatePillar(i, 'title', e.target.value.toUpperCase())}
+                                                className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-white text-sm font-bold focus:outline-none focus:border-god-accent transition-all uppercase placeholder:text-white/20"
+                                                placeholder="PILLAR TITLE"
+                                            />
+                                            <input
+                                                type="text"
+                                                value={pillar.desc}
+                                                onChange={(e) => updatePillar(i, 'desc', e.target.value)}
+                                                className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-god-muted text-[11px] focus:outline-none focus:border-god-accent transition-all placeholder:text-white/20"
+                                                placeholder="Summary..."
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right: Image */}
+                    <div className="space-y-6">
+                        <div className="bg-god-card border border-white/10 rounded-xl p-6 shadow-xl">
+                            <ImageUploader
+                                currentImage={formData.image}
+                                onImageChange={(path) => setFormData({ ...formData, image: path })}
+                                category="about"
+                                label="Story Image"
+                                aspectRatio="3/2"
+                            />
+                        </div>
+                        <div className="p-5 bg-god-accent/5 border border-god-accent/20 rounded-xl flex gap-4">
+                            <AlertCircle className="h-5 w-5 text-god-accent shrink-0 mt-0.5" />
+                            <div className="space-y-1">
+                                <p className="text-[11px] font-bold text-god-accent uppercase tracking-wider">Editor Note</p>
+                                <p className="text-[11px] text-white/50 leading-relaxed">
+                                    Story image uses a landscape 3:2 ratio. Core Pillars are limited to 4 key principles to maintain layout integrity.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

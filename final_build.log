@@ -1,0 +1,51 @@
+Γû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+
+ΓÜá The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 5.7s
+  Running TypeScript ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/27) ...
+  Generating static pages using 11 workers (6/27) 
+  Generating static pages using 11 workers (13/27) 
+  Generating static pages using 11 workers (20/27) 
+Γ£ô Generating static pages using 11 workers (27/27) in 1384.2ms
+  Finalizing page optimization ...
+
+Route (app)
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γö£ Γùï /about
+Γö£ ╞Æ /api/auth/login
+Γö£ ╞Æ /api/auth/logout
+Γö£ ╞Æ /api/test-db
+Γö£ ╞Æ /api/upload
+Γö£ Γùï /contact
+Γö£ Γùï /gallery
+Γö£ Γùï /membership
+Γö£ Γùï /portal-access
+Γö£ Γùï /portal-access/about
+Γö£ Γùï /portal-access/gallery
+Γö£ Γùï /portal-access/hero
+Γö£ Γùï /portal-access/home
+Γö£ Γùï /portal-access/iron-standard
+Γö£ Γùï /portal-access/login
+Γö£ Γùï /portal-access/marquee
+Γö£ Γùï /portal-access/membership
+Γö£ Γùï /portal-access/programs
+Γö£ Γùï /portal-access/settings
+Γö£ Γùï /portal-access/trainers
+Γö£ Γùï /portal-access/transformations
+Γö£ Γùï /programs
+Γö£ ╞Æ /programs/[id]
+Γö£ Γùï /trainers
+Γö£ ╞Æ /trainers/[id]
+Γöö Γùï /transformations
+
+
+╞Æ Proxy (Middleware)
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+

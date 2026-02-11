@@ -3,7 +3,13 @@ import { getGymData } from '@/lib/actions';
 
 const Marquee = async () => {
     const data = await getGymData();
-    const items = data.marquee || ["NO EXCUSES", "TRAIN HARD", "STAY CONSISTENT", "GOD'S GYM"];
+    // Handle marquee being either an array or an object with numeric keys
+    const rawMarquee = data.marquee;
+    const items: string[] = Array.isArray(rawMarquee)
+        ? rawMarquee
+        : (rawMarquee && typeof rawMarquee === 'object'
+            ? Object.values(rawMarquee) as string[]
+            : ["NO EXCUSES", "TRAIN HARD", "STAY CONSISTENT", "GOD'S GYM"]);
 
     return (
         <div className="relative w-full overflow-hidden bg-black py-4 sm:py-6 border-y border-white/5 no-transition -skew-y-1">

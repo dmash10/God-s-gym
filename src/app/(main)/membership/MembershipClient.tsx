@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/Reveal';
 import Link from 'next/link';
 import { Check, ArrowRight, Dumbbell, Crown, Zap } from 'lucide-react';
+import { getWhatsAppUrl } from '@/lib/utils';
 
 interface Plan {
     id: number;
@@ -14,9 +15,10 @@ interface Plan {
 
 interface MembershipClientProps {
     plans: Plan[];
+    whatsappNumber?: string;
 }
 
-export default function MembershipClient({ plans }: MembershipClientProps) {
+export default function MembershipClient({ plans, whatsappNumber }: MembershipClientProps) {
     const [hoveredPlan, setHoveredPlan] = useState<number | null>(null);
 
     const getIcon = (title: string) => {
@@ -125,7 +127,8 @@ export default function MembershipClient({ plans }: MembershipClientProps) {
 
                                         {/* CTA Button */}
                                         <Link
-                                            href="/contact"
+                                            href={getWhatsAppUrl(whatsappNumber || '919897638649', `Hi, I'm interested in the ${plan.title} membership plan!`)}
+                                            target="_blank"
                                             className={`
                         relative w-full py-3 sm:py-4 rounded-lg sm:rounded-xl font-heading font-bold uppercase tracking-widest text-xs sm:text-sm
                         transition-all duration-300 overflow-hidden flex items-center justify-center gap-2 touch-manipulation active:scale-95
@@ -168,7 +171,11 @@ export default function MembershipClient({ plans }: MembershipClientProps) {
                     </div>
 
                     <div className="relative z-10 flex flex-col justify-center items-start md:items-end mt-4 md:mt-0">
-                        <Link href="/contact" className="group flex items-center gap-3 sm:gap-4 px-5 sm:px-6 md:px-8 py-3 sm:py-4 bg-white text-black rounded-lg sm:rounded-xl font-heading font-bold uppercase tracking-widest text-xs sm:text-sm hover:bg-god-accent transition-colors duration-300 touch-manipulation active:scale-95">
+                        <Link
+                            href={getWhatsAppUrl(whatsappNumber || '919897638649', "Hi, I'd like to enquire about corporate/group membership packages.")}
+                            target="_blank"
+                            className="group flex items-center gap-3 sm:gap-4 px-5 sm:px-6 md:px-8 py-3 sm:py-4 bg-white text-black rounded-lg sm:rounded-xl font-heading font-bold uppercase tracking-widest text-xs sm:text-sm hover:bg-god-accent transition-colors duration-300 touch-manipulation active:scale-95"
+                        >
                             Book Consultation
                             <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
                         </Link>

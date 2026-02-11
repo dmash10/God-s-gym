@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { getGymData } from '@/lib/actions';
+import { getWhatsAppUrl } from '@/lib/utils';
 
 export default async function TrainerDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -38,7 +39,7 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
 
     // ORIGINAL Desktop Social Links Design
     const DesktopSocialLinks = ({ className = "" }: { className?: string }) => {
-        const hasSocials = socials.instagram || socials.twitter || socials.facebook || trainer.email;
+        const hasSocials = socials.instagram || socials.twitter || socials.facebook || trainer.email || data.siteSettings.contactEmail;
         if (!hasSocials) return null;
 
         return (
@@ -67,8 +68,8 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
                         <span className="text-[10px] font-black uppercase tracking-[0.2em] group-hover:text-white transition-colors">Facebook</span>
                     </a>
                 )}
-                {(trainer.email || data.gymEmail) && (
-                    <a href={`mailto:${trainer.email || 'info@godsgym.com'}`}
+                {(trainer.email || data.siteSettings.contactEmail) && (
+                    <a href={`mailto:${trainer.email || data.siteSettings.contactEmail}`}
                         className="group flex items-center gap-2 transition-all duration-300 hover:text-god-accent text-white/40">
                         <Mail className="h-4 w-4" />
                         <span className="text-[10px] font-black uppercase tracking-[0.2em] group-hover:text-white transition-colors">Contact</span>
@@ -80,7 +81,7 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
 
     // NEW Optimized Mobile Social Links
     const MobileSocialLinks = ({ className = "" }: { className?: string }) => {
-        const hasSocials = socials.instagram || socials.twitter || socials.facebook || trainer.email;
+        const hasSocials = socials.instagram || socials.twitter || socials.facebook || trainer.email || data.siteSettings.contactEmail;
         if (!hasSocials) return null;
 
         return (
@@ -230,7 +231,11 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
 
                     <div className="mt-10">
                         <Reveal delay={0.8} width="100%">
-                            <Link href="/programs" className="w-full flex justify-center items-center h-16 bg-god-accent text-black font-heading font-bold uppercase tracking-widest text-sm hover:brightness-110 active:scale-[0.98] transition-all rounded-sm shadow-xl">
+                            <Link
+                                href={getWhatsAppUrl(data.siteSettings?.whatsappNumber || '919897638649', `Hi, I'd like to book a session with ${trainer.name}!`)}
+                                target="_blank"
+                                className="w-full flex justify-center items-center h-16 bg-god-accent text-black font-heading font-bold uppercase tracking-widest text-sm hover:brightness-110 active:scale-[0.98] transition-all rounded-sm shadow-xl"
+                            >
                                 Book Session <ArrowRight className="ml-2 h-5 w-5" />
                             </Link>
                         </Reveal>
@@ -298,7 +303,11 @@ export default async function TrainerDetailPage({ params }: { params: Promise<{ 
                                         </div>
 
                                         <div className="p-4">
-                                            <Link href="/programs" className="flex justify-center items-center h-11 bg-god-accent text-black font-heading font-bold uppercase tracking-wider text-xs hover:brightness-110 transition-all">
+                                            <Link
+                                                href={getWhatsAppUrl(data.siteSettings?.whatsappNumber || '919897638649', `Hi, I'd like to book a session with ${trainer.name}!`)}
+                                                target="_blank"
+                                                className="flex justify-center items-center h-11 bg-god-accent text-black font-heading font-bold uppercase tracking-wider text-xs hover:brightness-110 transition-all"
+                                            >
                                                 Book Session <ArrowRight className="ml-2 h-4 w-4" />
                                             </Link>
                                         </div>

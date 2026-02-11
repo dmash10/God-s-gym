@@ -1,43 +1,61 @@
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt } from "@/lib/auth";
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
 
-// 1. Specify protected and public routes
-const protectedRoutes = ["/portal-access", "/portal-access/hero", "/portal-access/about", "/portal-access/programs", "/portal-access/trainers", "/portal-access/gallery", "/portal-access/transformations", "/portal-access/membership", "/portal-access/settings"];
+const protectedRoutes = ["/portal-access"];
 const publicRoutes = ["/portal-access/login"];
 
 export default async function middleware(req: NextRequest) {
-    // 2. Check if the current route is protected or public
     const path = req.nextUrl.pathname;
+
+    // Skip middleware for non-portal routes
+    if (!path.startsWith('/portal-access')) {
+        return NextResponse.next();
+    }
+
     const isProtectedRoute = protectedRoutes.some(route => path === route || path.startsWith(`${route}/`));
     const isPublicRoute = publicRoutes.includes(path);
 
-    // 3. Decrypt the session from the cookie
-    const cookie = req.cookies.get("session")?.value;
-    let session = null;
+    let response = NextResponse.next({
+        request: { headers: req.headers },
+    });
 
-    if (cookie) {
-        try {
-            session = await decrypt(cookie);
-        } catch (e) {
-            // Invalid session
+    const supabase = createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+            cookies: {
+                get(name: string) {
+                    return req.cookies.get(name)?.value;
+                },
+                set(name: string, value: string, options: CookieOptions) {
+                    req.cookies.set({ name, value, ...options });
+                    response = NextResponse.next({ request: { headers: req.headers } });
+                    response.cookies.set({ name, value, ...options });
+                },
+                remove(name: string, options: CookieOptions) {
+                    req.cookies.set({ name, value: "", ...options });
+                    response = NextResponse.next({ request: { headers: req.headers } });
+                    response.cookies.set({ name, value: "", ...options });
+                },
+            },
         }
+    );
+
+    const { data: { user } } = await supabase.auth.getUser();
+
+    // Redirect unauthenticated users from protected routes to login
+    if (isProtectedRoute && !user && !isPublicRoute) {
+        return NextResponse.redirect(new URL("/portal-access/login", req.nextUrl));
     }
 
-    // 4. Redirect to Homepage if the user is not authenticated and trying to access a protected route
-    // This helps hide the existence of the admin portal
-    if (isProtectedRoute && !session && path !== "/portal-access/login") {
-        return NextResponse.redirect(new URL("/", req.nextUrl));
-    }
-
-    // 5. Redirect to /portal-access if the user is authenticated and trying to access a public route
-    if (isPublicRoute && session && !path.startsWith("/portal-access/login")) {
+    // Redirect authenticated users from login page to dashboard
+    if (isPublicRoute && user) {
         return NextResponse.redirect(new URL("/portal-access", req.nextUrl));
     }
 
-    return NextResponse.next();
+    return response;
 }
 
-// Routes Middleware should not run on
 export const config = {
-    matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+    matcher: ["/portal-access/:path*"],
 };

@@ -8,7 +8,7 @@ export default async function Contact() {
     const settings = data.siteSettings || {
         contactPhone: '+91 98765 43210',
         address: 'Near SBI Bank, Kargi Chowk, Dehradun',
-        whatsappNumber: '919876543210',
+        whatsappNumber: '919897638649',
         mapUrl: ''
     };
 
