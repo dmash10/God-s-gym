@@ -177,6 +177,14 @@ const DEFAULT_DATA: GymData = {
       description: 'At God\'s Gym, we don\'t believe in shortcuts. We believe in the relentless pursuit of excellence through iron and sweat.',
       bulletPoints: [],
       image: ''
+    },
+    promo: {
+      headline: "Book your Intro",
+      subheadline: "and redefine your limitless potential.",
+      accentText: "Session",
+      description: "PROMOTION",
+      buttonText: "Start Your Journey",
+      buttonLink: "/contact"
     }
   },
   marquee: ["NO EXCUSES", "TRAIN HARD", "STAY CONSISTENT", "GOD'S GYM"]
@@ -308,6 +316,13 @@ export async function updateHomepageCTA(cta: GymData['homepage']['cta']) {
 export async function updateHomepagePhilosophy(philosophy: GymData['homepage']['philosophy']) {
   await requireAuth();
   await saveSiteContent({ homepage: { philosophy } });
+  revalidatePath('/');
+  return { success: true };
+}
+
+export async function updateHomepagePromo(promo: GymData['homepage']['promo']) {
+  await requireAuth();
+  await saveSiteContent({ homepage: { promo } });
   revalidatePath('/');
   return { success: true };
 }

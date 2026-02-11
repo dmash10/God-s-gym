@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { updateHomepageQuote as updateHomepagePromo } from '@/lib/actions'; // Reusing quote logic for now or updating actions
+import { updateHomepagePromo } from '@/lib/actions';
 import { Save, Ticket, Type, Image as ImageIcon } from 'lucide-react';
 import ImageUploader from '@/components/admin/ImageUploader';
 
@@ -36,11 +36,10 @@ export default function PromoEditor({ initialData }: PromoEditorProps) {
         setIsSaving(true);
         setMessage('');
         try {
-            // We'll need a specific updateHomepagePromo in actions.ts eventually, 
-            // but for now let's assume we'll add it or proxy it.
-            // await updateHomepagePromo(promo); 
+            await updateHomepagePromo(promo);
             setMessage('Promo updated successfully!');
         } catch (error) {
+            console.error(error);
             setMessage('Failed to update promo.');
         }
         setIsSaving(false);

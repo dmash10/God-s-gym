@@ -236,7 +236,7 @@ export default async function Home() {
       }
 
       {/* --- PARALLAX PROMO SECTION --- */}
-      <PromoSection />
+      <PromoSection data={homepage?.promo} />
 
       {/* --- GOOGLE REVIEWS STRIPE --- */}
       {(homepage as any)?.googleReviews && <GoogleReviewStripe data={(homepage as any).googleReviews} />}
