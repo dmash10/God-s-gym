@@ -192,7 +192,7 @@ async function getSiteId(): Promise<string> {
     .from('sites')
     .select('id')
     .eq('slug', SITE_SLUG)
-    .single();
+    .single() as { data: { id: string } | null; error: any };
 
   if (error || !data) {
     throw new Error(`Site with slug "${SITE_SLUG}" not found`);
@@ -208,11 +208,11 @@ export async function getGymData(): Promise<GymData> {
     const siteId = await getSiteId();
 
     const [contentRes, trainersRes, programsRes, plansRes, galleryRes] = await Promise.all([
-      supabase.from('site_content').select('*').eq('site_id', siteId).single(),
-      supabase.from('trainers').select('*').eq('site_id', siteId).order('id'),
-      supabase.from('programs').select('*').eq('site_id', siteId).order('id'),
-      supabase.from('membership_plans').select('*').eq('site_id', siteId).order('id'),
-      supabase.from('gallery_images').select('url').eq('site_id', siteId).order('id')
+      (supabase.from('site_content').select('*').eq('site_id', siteId).single() as unknown) as Promise<{ data: any; error: any }>,
+      (supabase.from('trainers').select('*').eq('site_id', siteId).order('id') as unknown) as Promise<{ data: any; error: any }>,
+      (supabase.from('programs').select('*').eq('site_id', siteId).order('id') as unknown) as Promise<{ data: any; error: any }>,
+      (supabase.from('membership_plans').select('*').eq('site_id', siteId).order('id') as unknown) as Promise<{ data: any; error: any }>,
+      (supabase.from('gallery_images').select('url').eq('site_id', siteId).order('id') as unknown) as Promise<{ data: any; error: any }>
     ]);
 
     const content = contentRes.data || {};
