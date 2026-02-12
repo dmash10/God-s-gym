@@ -107,6 +107,7 @@ export interface GymData {
       description: string;
       buttonText: string;
       buttonLink: string;
+      image?: string;
     };
     googleReviews?: {
       rating: number;
@@ -184,7 +185,8 @@ const DEFAULT_DATA: GymData = {
       accentText: "Session",
       description: "PROMOTION",
       buttonText: "Start Your Journey",
-      buttonLink: "/contact"
+      buttonLink: "/contact",
+      image: ''
     }
   },
   marquee: ["NO EXCUSES", "TRAIN HARD", "STAY CONSISTENT", "GOD'S GYM"]

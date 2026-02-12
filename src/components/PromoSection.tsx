@@ -95,11 +95,13 @@ const PromoSection = ({ data }: { data?: any }) => {
                         className="absolute bottom-[-180px] sm:bottom-[-240px] right-[-50px] sm:right-[120px] w-[320px] sm:w-[450px] h-[512px] sm:h-[720px]"
                     >
                         <Image
-                            src={gymGirl}
+                            src={promo.image || gymGirl}
                             alt="Fitness Expert"
                             fill
                             className="object-contain object-bottom drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
                             priority
+                            width={promo.image ? 800 : undefined}
+                            height={promo.image ? 1200 : undefined}
                         />
                     </motion.div>
                 </div>
