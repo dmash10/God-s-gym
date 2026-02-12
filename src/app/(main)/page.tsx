@@ -74,7 +74,7 @@ export default async function Home() {
             </Reveal>
             {/* STRENGTH - Below */}
             <Reveal delay={0.15} className="h-auto">
-              <h1 className="font-heading text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-transparent stroke-text-bold tracking-tighter uppercase leading-none pb-2">
+              <h1 className="font-heading text-6xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-white tracking-tighter uppercase leading-none pb-2">
                 {word3}
               </h1>
             </Reveal>
@@ -91,13 +91,12 @@ export default async function Home() {
 
             <Reveal delay={0.6} className="w-full sm:w-auto flex justify-center lg:justify-end">
               <Link
-                href={getWhatsAppUrl(siteSettings?.whatsappNumber || '919897638649', "Hi, I'm interested in joining God's Gym Arena!")}
-                target="_blank"
+                href="/membership"
                 className="group relative inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-god-accent text-black font-heading font-bold text-xs sm:text-sm tracking-wider uppercase overflow-hidden active:scale-[0.98] transition-all duration-300 shadow-[0_4px_12px_rgba(234,179,8,0.3)] hover:shadow-[0_6px_20px_rgba(234,179,8,0.5)]"
               >
                 <div className="absolute inset-0 w-full h-full bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
                 <span className="relative z-10 flex items-center gap-1.5">
-                  Join Now <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                  View Plans <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
                 </span>
               </Link>
             </Reveal>

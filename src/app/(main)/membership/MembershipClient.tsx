@@ -47,7 +47,7 @@ export default function MembershipClient({ plans, whatsappNumber }: MembershipCl
                             </span>
                         </div>
                         <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold uppercase tracking-tighter mb-4 sm:mb-6 leading-none">
-                            Join The <span className="text-transparent stroke-text-bold">Pantheon</span>
+                            Join The <span className="text-god-accent">Pantheon</span>
                         </h1>
                         <p className="text-god-muted text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed px-2">
                             Select the tier that matches your ambition.
