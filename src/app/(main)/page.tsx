@@ -47,7 +47,8 @@ export default async function Home() {
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
         {/* Dark Overlay Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-god-bg/80 via-god-bg/30 to-god-bg z-10 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-god-bg/90 via-god-bg/50 to-god-bg/90 z-10 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80 z-10 pointer-events-none sm:hidden"></div>
 
         {/* Background Image - Next.js optimized */}
         <div className="absolute inset-0 z-0 select-none">
@@ -66,15 +67,15 @@ export default async function Home() {
           {/* Title Group - Centered on mobile, left-aligned with border on desktop */}
           <div className="lg:border-l-4 border-god-accent lg:pl-8 text-center lg:text-left">
             {/* BUILD GODLIKE - Same line */}
-            <Reveal className="h-auto">
-              <h1 className="font-heading text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter uppercase leading-none pb-1">
-                <span className="text-white">{word1} </span>
-                <span className="text-god-accent">{word2}</span>
+            <Reveal className="h-auto w-full flex justify-center lg:justify-start">
+              <h1 className="font-heading text-[15vw] sm:text-8xl md:text-9xl lg:text-[10rem] font-bold tracking-tighter uppercase leading-[0.85] pb-2 flex flex-col lg:block items-center">
+                <span className="text-white block lg:inline drop-shadow-lg">{word1}</span>
+                <span className="text-god-accent block lg:inline drop-shadow-[0_0_25px_rgba(234,179,8,0.4)] mt-1 lg:mt-0 lg:ml-4">{word2}</span>
               </h1>
             </Reveal>
             {/* STRENGTH - Below */}
-            <Reveal delay={0.15} className="h-auto">
-              <h1 className="font-heading text-6xl sm:text-6xl md:text-8xl lg:text-9xl font-bold text-white tracking-tighter uppercase leading-none pb-2">
+            <Reveal delay={0.15} className="h-auto w-full flex justify-center lg:justify-start">
+              <h1 className="font-heading text-[15vw] sm:text-8xl md:text-9xl lg:text-[10rem] font-bold text-white tracking-tighter uppercase leading-[0.85] pb-4 text-center lg:text-left drop-shadow-lg">
                 {word3}
               </h1>
             </Reveal>
